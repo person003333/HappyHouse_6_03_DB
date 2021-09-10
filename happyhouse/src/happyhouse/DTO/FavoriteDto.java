@@ -41,7 +41,7 @@ package happyhouse.DTO;
 
 		@Override
 			public String toString() {
-				return "FavoriteDtoImpl [user_no=" + user_no + ", dongcode=" + dongcode + ", dong=" + dong + ", gu=" + gu + "]";
+				return "관심지역 정보 [ 동코드 = " + dongcode + ", 동 = " + dong + ", 구군 = " + gu + "]";
 			}
 
 	}

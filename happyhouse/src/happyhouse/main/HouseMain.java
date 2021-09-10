@@ -2,16 +2,8 @@ package happyhouse.main;
 import java.io.*;
 import java.util.List;
 
-import happyhouse.DAO.FavoriteDao;
-import happyhouse.DAO.FavoriteDaoImpl;
-import happyhouse.DAO.HouseDaoImpl;
-import happyhouse.DAO.House_dealDaoImpl;
-import happyhouse.DAO.UserDaoImpl;
-
-import happyhouse.DTO.FavoriteDto;
-import happyhouse.DTO.HouseDto;
-import happyhouse.DTO.House_dealDto;
-import happyhouse.DTO.UserDto;
+import happyhouse.DAO.*;
+import happyhouse.DTO.*;
 
 public class HouseMain {
 	
@@ -65,71 +57,109 @@ public class HouseMain {
 		System.out.println("@@@@@@@@@@@ 프로그램 종료 @@@@@@@@@@@");
 	}
 	private void deleteFavorite() {
-//		System.out.println("deleteProduct");
-		try {
-			System.out.println("--------------------- 상품 삭제 ---------------------");
-			int user_no = user.getUserno();
-			System.out.print("삭제할 동코드 : ");
-			int dongcode = Integer.parseInt(in.readLine());
-			
-			FavoriteDaoImpl.getProductDao().deleteFavorite(user_no, dongcode);
-			System.out.println("-------------------------------------------------");
-			System.out.println("삭제 성공!!!!!");
-			System.out.println("-------------------------------------------------");
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(user != null) {
+			try {
+				System.out.println("--------------------- 상품 삭제 ---------------------");
+				int user_no = user.getUserno();
+				System.out.print("삭제할 동코드 : ");
+				int dongcode = Integer.parseInt(in.readLine());
+				
+				FavoriteDaoImpl.getProductDao().deleteFavorite(user_no, dongcode);
+				System.out.println("-------------------------------------------------");
+				System.out.println("삭제 성공!!!!!");
+				System.out.println("-------------------------------------------------");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			System.out.println("로그인이 필요합니다.");
 		}
 	}
 	
 	
 	private void register_favorite() {
-//		System.out.println("register");
-//		유효성 검사는 생략할게요!!!
-		try {
-			System.out.println("--------------------- 등록 ---------------------");
-			int user_no = user.getUserno();
-			System.out.print("동 코드 : ");
-			int dongcode = Integer.parseInt(in.readLine());
-			System.out.print("구 : ");
-			String gu = in.readLine();
-			System.out.print("동 : ");
-			String dong = in.readLine();
-			
-			FavoriteDto favoriteDto = new FavoriteDto();
-			favoriteDto.setUser_no(user_no);
-			favoriteDto.setDongcode(dongcode);
-			favoriteDto.setGu(gu);
-			favoriteDto.setDong(dong);
-			
-			FavoriteDao productDao = FavoriteDaoImpl.getProductDao();
-			productDao.register(favoriteDto);
-			System.out.println("-------------------------------------------------");
-			System.out.println("등록 성공!!!!!");
-			System.out.println("-------------------------------------------------");
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(user != null) {
+			try {
+				System.out.println("--------------------- 등록 ---------------------");
+				int user_no = user.getUserno();
+				System.out.print("동 코드 : ");
+				int dongcode = Integer.parseInt(in.readLine());
+				System.out.print("구 : ");
+				String gu = in.readLine();
+				System.out.print("동 : ");
+				String dong = in.readLine();
+				
+				FavoriteDto favoriteDto = new FavoriteDto();
+				favoriteDto.setUser_no(user_no);
+				favoriteDto.setDongcode(dongcode);
+				favoriteDto.setGu(gu);
+				favoriteDto.setDong(dong);
+				
+				FavoriteDao productDao = FavoriteDaoImpl.getProductDao();
+				productDao.register(favoriteDto);
+				System.out.println("-------------------------------------------------");
+				System.out.println("등록 성공!!!!!");
+				System.out.println("-------------------------------------------------");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("로그인이 필요합니다.");
 		}
 	}
 	
 	private void search_favorite() throws NumberFormatException, IOException {
-		System.out.println("searchAll");
-		int user_no = user.getUserno();
-
-		List<FavoriteDto> list = FavoriteDaoImpl.getProductDao().searchAll(user_no);
-		show_favoriteList(list);
-	}
-
+		if(user != null) {
+			int user_no = user.getUserno();
 	
-	private void show_favoriteList(List<FavoriteDto> list) {
-		System.out.println("===================================== 관심지역 목록 =====================================");
-		System.out.println("user_no\tdongcode\tgu\tdong");
-		
-		System.out.println("-------------------------------------------------------------------------------------");
-		for(FavoriteDto house : list) {
-			System.out.println(house);
+			List<FavoriteDto> list = FavoriteDaoImpl.getProductDao().searchAll(user_no);
+			show_favoriteList(list);
+			
+			if(list.size() > 0) choice_favorite(list);
+		} else {
+			System.out.println("로그인이 필요합니다.");
 		}
-		System.out.println("-------------------------------------------------------------------------------------");
 	}
+
+	private void show_favoriteList(List<FavoriteDto> list) {
+		if(user != null) {
+			System.out.println("===================================== 관심지역 목록 =====================================");
+			System.out.println("user_no\tdongcode\tgu\tdong");
+			
+			System.out.println("-------------------------------------------------------------------------------------");
+			for(FavoriteDto house : list) {
+				System.out.println(house);
+			}
+			System.out.println("-------------------------------------------------------------------------------------");
+		} else {
+			System.out.println("로그인이 필요합니다.");
+		}
+	}
+	
+	private void choice_favorite(List<FavoriteDto> list) throws IOException {
+		System.out.print("관심지역 doncode 선택 : ");
+		String choiceCode = in.readLine();
+		System.out.print("관심지역 의료기관 조회 : 1 / 상권 조회 : 2");
+		String choiceOption = in.readLine();
+		
+		if(choiceOption.equals("1")) {
+			List<HospitalDto> hospitalList = HospitalDaoImpl.getHospitalDao().searchAll(choiceCode);
+			System.out.println("-------------------------------------------------------------------------------------");
+			for(HospitalDto hospital : hospitalList) {
+				System.out.println(hospital);
+			}
+			System.out.println("-------------------------------------------------------------------------------------");
+		}
+		else if(choiceOption.equals("2")) {
+			List<CommDto> commList = CommDaoImpl.getCommDao().searchAll(choiceCode);
+			System.out.println("-------------------------------------------------------------------------------------");
+			for(CommDto comm : commList) {
+				System.out.println(comm);
+			}
+			System.out.println("-------------------------------------------------------------------------------------");
+		}
+	}
+	
 	
 	private void search_deal() throws NumberFormatException, IOException {
 //		System.out.println("searchAll");
@@ -167,8 +197,6 @@ public class HouseMain {
 		List<HouseDto> list = HouseDaoImpl.getProductDao().searchAll(guguncode,dong);
 		showList(list);
 	}
-	
-	
 
 	private void showList(List<HouseDto> list) {
 		System.out.println("===================================== 목록 =====================================");
@@ -185,6 +213,7 @@ public class HouseMain {
 		System.out.print("사용자 비밀번호 입력 : ");
 		String password = in.readLine();
 		user = UserDaoImpl.getUserDao().login(id, password);
+		System.out.println("로그인 성공!!");
 	}
 	
 	private void insert_User() throws IOException {
@@ -199,6 +228,7 @@ public class HouseMain {
 		System.out.print("사용자 전화번호 입력 : ");
 		String tel = in.readLine();
 		UserDaoImpl.getUserDao().registerUser(id, password, name, address, tel);
+		System.out.println("회원가입 완료!!");
 	}
 	
 	private void update_User() throws IOException {
@@ -208,6 +238,7 @@ public class HouseMain {
 			System.out.print("업데이트 할 정보 입력 : ");
 			String updateInfo = in.readLine();
 			UserDaoImpl.getUserDao().updateUserInfo(option, user.getUserId(), updateInfo);
+			System.out.println("회원정보 수정 완료!!");
 		}
 	}
 	
@@ -215,6 +246,7 @@ public class HouseMain {
 		System.out.print("삭제 할 사용자 ID 입력 : ");
 		String id = in.readLine();
 		UserDaoImpl.getUserDao().deleteUser(id);
+		System.out.println("회원탈퇴 완료!!");
 	}
 	
 	private void searchAll_User() {
