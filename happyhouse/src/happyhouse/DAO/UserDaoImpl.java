@@ -35,12 +35,13 @@ public class UserDaoImpl implements UserDao {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
+				int no = rs.getInt("no");
 				String id = rs.getString("id");
 				String password = rs.getString("password");
 				String name = rs.getString("name");
 				String address = rs.getString("addres");
 				String tel = rs.getString("tel");
-				return user = new UserDto(id, password, name, address, tel);
+				return user = new UserDto(no,id, password, name, address, tel);
 			}
 			
 			return null;
