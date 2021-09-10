@@ -78,7 +78,7 @@
 
 ![9](https://lab.ssafy.com/anvo930524/happyhouse_6_03_db/-/raw/master/img/10-2.png)
 
-## 0. 동 조회
+## 0. 종료
 ### 페이지 설명
        로그인 하면 Login 버튼은 사라지고  Logout, 회원 정보, 관심지역 버튼이 나타난다.
 ![0](https://lab.ssafy.com/anvo930524/happyhouse_6_03_db/-/raw/master/img/0.png)
