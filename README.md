@@ -24,6 +24,11 @@
 |심화|국가 안심 병원 정보 데이터 관리|⭕️|
 <br>
 
+# 😎 ERD
+![erd1](https://lab.ssafy.com/anvo930524/happyhouse_6_03_db/-/raw/master/img/erd1.png)
+
+![erd2](https://lab.ssafy.com/anvo930524/happyhouse_6_03_db/-/raw/master/img/erd2.png)
+
 # 😎 메뉴 설계
 ## 1. 동 조회
        구군 코드와 동을 입력하면 주택 정보가 출력됨
