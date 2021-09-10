@@ -4,6 +4,9 @@ package happyhouse.DTO;
 
 public class UserDto {
 
+	private int userno;
+	
+
 	private String userId;
 	private String userPassword;
 	private String userName;
@@ -17,6 +20,25 @@ public class UserDto {
 		this.userName = userName;
 		this.userAddress = userAddress;
 		this.userTel = userTel;
+	}
+	
+	public UserDto(int userno, String userId, String userPassword, String userName, String userAddress,
+			String userTel) {
+		super();
+		this.userno = userno;
+		this.userId = userId;
+		this.userPassword = userPassword;
+		this.userName = userName;
+		this.userAddress = userAddress;
+		this.userTel = userTel;
+	}
+
+	public int getUserno() {
+		return userno;
+	}
+
+	public void setUserno(int userno) {
+		this.userno = userno;
 	}
 	
 	public String getUserId() {
